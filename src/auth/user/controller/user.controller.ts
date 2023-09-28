@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserMSG } from 'src/common/constants';
-import { userDto } from '../dto/user.dto';
+import { userDto, updateUserDto } from '../dto/user.dto';
 import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 
 @ApiTags('users')
@@ -17,6 +17,13 @@ import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 export class UserController {
   constructor(private readonly clientProxy: ClientProxyNotJira) {}
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
+  @Post('login')
+  login() {
+    return this.clientProxyUser.send('login', {
+      username: 'MiloSky',
+      password: '543',
+    });
+  }
 
   @Get()
   findAll() {
@@ -34,7 +41,7 @@ export class UserController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: userDto) {
+  update(@Param('id') id: string, @Body() payload: updateUserDto) {
     return this.clientProxyUser.send(UserMSG.UPDATE, { id, payload });
   }
 
