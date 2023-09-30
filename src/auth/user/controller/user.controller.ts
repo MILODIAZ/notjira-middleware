@@ -15,8 +15,18 @@ import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 @ApiTags('users')
 @Controller('api/v1/user')
 export class UserController {
-  constructor(private readonly clientProxy: ClientProxyNotJira) {}
+  constructor(private readonly clientProxy: ClientProxyNotJira) { }
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
+
+  @Post('/login')
+  login(@Body() payload: any) {
+    return this.clientProxyUser.send('login', payload);
+  }
+
+  @Put('/password')
+  recoverPassword(@Body() payload: any) {
+    return this.clientProxyUser.send('recoverPassword', payload);
+  }
 
   @Get()
   findAll() {
