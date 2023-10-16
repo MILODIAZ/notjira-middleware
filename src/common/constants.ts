@@ -1,5 +1,6 @@
 export enum RabbitMQ {
   AuthorizationQueue = 'authorization',
+  ManagementQueue = 'management',
 }
 
 export enum UserMSG {
@@ -8,4 +9,14 @@ export enum UserMSG {
   FIND_ONE = 'FIND_USER',
   UPDATE = 'UPDATE_USER',
   DELETE = 'DELETE_USER',
+}
+
+export enum TeamMSG {
+  CREATE = 'CREATE_TEAM',
+  FIND_ALL = 'FIND_TEAMS',
+  FIND_ONE = 'FIND_TEAM',
+  UPDATE = 'UPDATE_TEAM',
+  DELETE = 'DELETE_TEAM',
+  ADD_USER = 'ADD_USER',
+  REMOVE_USER = 'REMOVE_USER',
 }

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { ManagementModule } from './management/management.module';
 import config from './config';
 import * as Joi from 'joi';
 
@@ -18,6 +19,7 @@ import * as Joi from 'joi';
       }),
     }),
     AuthModule,
+    ManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],

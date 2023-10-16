@@ -17,6 +17,7 @@ import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 export class UserController {
   constructor(private readonly clientProxy: ClientProxyNotJira) {}
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
+  private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
   @Post('/login')
   login(@Body() payload: any) {
@@ -39,17 +40,33 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() payload: userDto) {
-    return this.clientProxyUser.send(UserMSG.CREATE, payload);
+  async create(@Body() payload: userDto) {
+    const result1 = await this.clientProxyUser
+      .send(UserMSG.CREATE, payload)
+      .toPromise();
+    const result2 = await this.clientProxyManagement
+      .send(UserMSG.CREATE, payload)
+      .toPromise();
+    return { result1, result2 };
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: updateUserDto) {
-    return this.clientProxyUser.send(UserMSG.UPDATE, { id, payload });
+  async update(@Param('id') id: string, @Body() payload: updateUserDto) {
+    const result1 = this.clientProxyUser
+      .send(UserMSG.UPDATE, { id, payload })
+      .toPromise();
+    const result2 = this.clientProxyManagement
+      .send(UserMSG.UPDATE, { id, payload })
+      .toPromise();
+    return { result1, result2 };
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.clientProxyUser.send(UserMSG.DELETE, id);
+  async delete(@Param('id') id: string) {
+    const result1 = this.clientProxyUser.send(UserMSG.DELETE, id).toPromise();
+    const result2 = this.clientProxyManagement
+      .send(UserMSG.DELETE, id)
+      .toPromise();
+    return { result1, result2 };
   }
 }
