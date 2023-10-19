@@ -6,29 +6,53 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport/dist';
+
 import { UserMSG } from 'src/common/constants';
-import { userDto, updateUserDto } from '../dto/user.dto';
+import {
+  userDto,
+  updateUserDto,
+  loginDto,
+  recoveryPassDto,
+} from '../dto/user.dto';
 import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
+import { AuthService } from 'src/auth/services/auth.service';
 
 @ApiTags('users')
 @Controller('api/v1/user')
 export class UserController {
-  constructor(private readonly clientProxy: ClientProxyNotJira) {}
+  constructor(
+    private readonly clientProxy: ClientProxyNotJira,
+    private authService: AuthService,
+  ) {}
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
   @Post('/login')
-  login(@Body() payload: any) {
-    return this.clientProxyUser.send('login', payload);
+  async login(@Body() payload: loginDto) {
+    const response = await this.clientProxyUser
+      .send('login', payload)
+      .toPromise();
+    const jwt = this.authService.generateJWT(response);
+    if (jwt.access_token) {
+      const userName = payload.userName;
+      const token: string = jwt.access_token;
+      await this.clientProxyUser
+        .send(UserMSG.JWT, { userName, token })
+        .toPromise();
+    }
+    return jwt;
   }
 
   @Put('/password')
-  recoverPassword(@Body() payload: any) {
+  recoverPassword(@Body() payload: recoveryPassDto) {
     return this.clientProxyUser.send('recoverPassword', payload);
   }
 
+  //@UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.clientProxyUser.send(UserMSG.FIND_ALL, '');

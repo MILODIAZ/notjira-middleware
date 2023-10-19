@@ -9,6 +9,7 @@ export enum UserMSG {
   FIND_ONE = 'FIND_USER',
   UPDATE = 'UPDATE_USER',
   DELETE = 'DELETE_USER',
+  JWT = 'UPDATE_JWT',
 }
 
 export enum TeamMSG {

@@ -5,5 +5,6 @@ export default registerAs('config', () => {
     rabbitMQ: {
       url: process.env.AMQP_URL,
     },
+    JwtSecret: process.env.JWT_SECRET,
   };
 });

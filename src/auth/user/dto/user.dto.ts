@@ -46,3 +46,21 @@ export class updateUserDto {
   @IsEmail()
   readonly email: string;
 }
+
+export class loginDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly userName: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly password: string;
+}
+
+export class recoveryPassDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly userName: string;
+}

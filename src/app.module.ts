@@ -16,6 +16,7 @@ import * as Joi from 'joi';
       isGlobal: true,
       validationSchema: Joi.object({
         AMQP_URL: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
     AuthModule,
