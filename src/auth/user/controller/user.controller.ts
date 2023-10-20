@@ -44,7 +44,8 @@ export class UserController {
         .send(UserMSG.JWT, { userName, token })
         .toPromise();
     }
-    return jwt;
+    return response;
+    //return jwt;
   }
 
   @Put('/password')
@@ -74,13 +75,16 @@ export class UserController {
     return { result1, result2 };
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() payload: updateUserDto) {
+  @Put(':userName')
+  async update(
+    @Param('userName') userName: string,
+    @Body() payload: updateUserDto,
+  ) {
     const result1 = this.clientProxyUser
-      .send(UserMSG.UPDATE, { id, payload })
+      .send(UserMSG.UPDATE, { userName, payload })
       .toPromise();
     const result2 = this.clientProxyManagement
-      .send(UserMSG.UPDATE, { id, payload })
+      .send(UserMSG.UPDATE, { userName, payload })
       .toPromise();
     return { result1, result2 };
   }
