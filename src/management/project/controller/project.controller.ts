@@ -7,16 +7,16 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-
 import { ApiTags } from '@nestjs/swagger';
+
 import { ProjectMSG } from 'src/common/constants';
-import { projectDto } from '../../dto/project.dto';
+import { projectDto } from '../dto/project.dto';
 import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 
 @ApiTags('projects')
 @Controller('api/v1/project')
 export class ProjectController {
-  constructor(private readonly clientProxy: ClientProxyNotJira) {}
+  constructor(private readonly clientProxy: ClientProxyNotJira) { }
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
   @Get()
