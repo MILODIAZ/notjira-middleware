@@ -16,7 +16,7 @@ import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 @ApiTags('tasks')
 @Controller('api/v1/task')
 export class TaskController {
-  constructor(private readonly clientProxy: ClientProxyNotJira) { }
+  constructor(private readonly clientProxy: ClientProxyNotJira) {}
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
   @Get()
@@ -30,7 +30,7 @@ export class TaskController {
   }
 
   @Post()
-  create(@Body() payload: taskDto) {
+  create(@Body() payload: any) {
     return this.clientProxyManagement.send(TaskMSG.CREATE, payload);
   }
 
