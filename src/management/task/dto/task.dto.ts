@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
-  IsDateString,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   IsString,
@@ -48,17 +48,35 @@ export class taskDto {
   readonly deleted: boolean;
 
   @ApiProperty({ type: 'timestamptz' })
-  @IsDateString()
+  @IsString()
   @IsOptional()
-  readonly startDate: Date;
+  readonly startDate: string;
 
   @ApiProperty({ type: 'timestamptz' })
-  @IsDateString()
+  @IsString()
   @IsOptional()
-  readonly endDate: Date;
+  readonly endDate: string;
 
   @ApiProperty()
   @IsString()
   @IsOptional()
   readonly status: TaskStatus;
+}
+
+export class FilterTasksDto {
+  @IsOptional()
+  @IsString()
+  filterName: string;
+
+  @IsOptional()
+  @IsString()
+  filterStatus: TaskStatus;
+
+  @IsOptional()
+  @IsString()
+  filterResponsable: string;
+
+  @IsOptional()
+  @IsNumber()
+  filterProject: number;
 }

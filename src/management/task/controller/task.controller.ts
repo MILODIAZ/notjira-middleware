@@ -10,7 +10,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 
 import { TaskMSG } from 'src/common/constants';
-import { taskDto } from '../dto/task.dto';
+import { taskDto, FilterTasksDto } from '../dto/task.dto';
 import { ClientProxyNotJira } from 'src/common/proxy/client-proxy';
 
 @ApiTags('tasks')
@@ -19,9 +19,9 @@ export class TaskController {
   constructor(private readonly clientProxy: ClientProxyNotJira) {}
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
-  @Get()
-  findAll() {
-    return this.clientProxyManagement.send(TaskMSG.FIND_ALL, '');
+  @Post('getTask')
+  findAll(@Body() payload: FilterTasksDto) {
+    return this.clientProxyManagement.send(TaskMSG.FIND_ALL, payload);
   }
 
   @Get(':id')
@@ -30,7 +30,7 @@ export class TaskController {
   }
 
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: taskDto) {
     return this.clientProxyManagement.send(TaskMSG.CREATE, payload);
   }
 
