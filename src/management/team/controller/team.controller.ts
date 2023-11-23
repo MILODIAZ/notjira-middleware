@@ -26,7 +26,7 @@ export class TeamController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.clientProxyManagement.send(TeamMSG.FIND_ONE, id);
   }
 
@@ -36,22 +36,24 @@ export class TeamController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: teamDto) {
+  update(@Param('id') id: number, @Body() payload: teamDto) {
     return this.clientProxyManagement.send(TeamMSG.UPDATE, { id, payload });
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: number) {
     return this.clientProxyManagement.send(TeamMSG.DELETE, id);
   }
 
   @Post('add/:id')
-  addUser(@Param('id') id: string, @Query('userName') userName: string) {
+  addUser(@Param('id') id: number, @Query('userName') userName: string) {
+    console.log(id);
     return this.clientProxyManagement.send(TeamMSG.ADD_USER, { id, userName });
   }
 
   @Post('remove/:id')
-  removeUser(@Param('id') id: string, @Query('userName') userName: string) {
+  removeUser(@Param('id') id: number, @Query('userName') userName: string) {
+    console.log(id);
     return this.clientProxyManagement.send(TeamMSG.REMOVE_USER, {
       id,
       userName,
