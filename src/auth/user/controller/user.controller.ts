@@ -40,12 +40,12 @@ export class UserController {
     if (jwt.access_token) {
       const userName = payload.userName;
       const token: string = jwt.access_token;
+      response.jwt = jwt.access_token;
       await this.clientProxyUser
         .send(UserMSG.JWT, { userName, token })
         .toPromise();
     }
     return response;
-    //return jwt;
   }
 
   @Put('/password')
@@ -53,7 +53,6 @@ export class UserController {
     return this.clientProxyUser.send('recoverPassword', payload);
   }
 
-  //@UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.clientProxyUser.send(UserMSG.FIND_ALL, '');
@@ -75,6 +74,7 @@ export class UserController {
     return { result1, result2 };
   }
 
+  //@UseGuards(AuthGuard('jwt'))
   @Put(':userName')
   async update(
     @Param('userName') userName: string,
