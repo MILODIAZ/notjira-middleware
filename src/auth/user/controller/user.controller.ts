@@ -27,7 +27,7 @@ export class UserController {
   constructor(
     private readonly clientProxy: ClientProxyNotJira,
     private authService: AuthService,
-  ) {}
+  ) { }
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
@@ -74,7 +74,7 @@ export class UserController {
     return { result1, result2 };
   }
 
-  //@UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Put(':userName')
   async update(
     @Param('userName') userName: string,
@@ -89,6 +89,7 @@ export class UserController {
     return { result1, result2 };
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async delete(@Param('id') id: string) {
     const result1 = this.clientProxyUser.send(UserMSG.DELETE, id).toPromise();
