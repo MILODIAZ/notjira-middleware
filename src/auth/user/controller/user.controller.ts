@@ -27,7 +27,7 @@ export class UserController {
   constructor(
     private readonly clientProxy: ClientProxyNotJira,
     private authService: AuthService,
-  ) { }
+  ) {}
   private clientProxyUser = this.clientProxy.clientProxyAuthorization();
   private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
@@ -80,10 +80,10 @@ export class UserController {
     @Param('userName') userName: string,
     @Body() payload: updateUserDto,
   ) {
-    const result1 = this.clientProxyUser
+    const result1 = await this.clientProxyUser
       .send(UserMSG.UPDATE, { userName, payload })
       .toPromise();
-    const result2 = this.clientProxyManagement
+    const result2 = await this.clientProxyManagement
       .send(UserMSG.UPDATE, { userName, payload })
       .toPromise();
     return { result1, result2 };
@@ -92,8 +92,10 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const result1 = this.clientProxyUser.send(UserMSG.DELETE, id).toPromise();
-    const result2 = this.clientProxyManagement
+    const result1 = await this.clientProxyUser
+      .send(UserMSG.DELETE, id)
+      .toPromise();
+    const result2 = await this.clientProxyManagement
       .send(UserMSG.DELETE, id)
       .toPromise();
     return { result1, result2 };
