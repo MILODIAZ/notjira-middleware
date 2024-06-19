@@ -33,6 +33,7 @@ export class UserController {
 
   @Post('/login')
   async login(@Body() payload: loginDto) {
+    console.log('here');
     const response = await this.clientProxyUser
       .send('login', payload)
       .toPromise();

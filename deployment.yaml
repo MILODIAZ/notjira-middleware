@@ -28,13 +28,10 @@ kind: Service
 metadata:
   name: notjira-gateway
 spec:
-  type: NodePort
-  externalIPs:
-    - 192.168.1.100
   selector:
     app: notjira-gateway
   ports:
     - protocol: TCP
-      port: 80
+      port: 8000
       targetPort: 8000
-      nodePort: 30001 # Puedes elegir un puerto en el rango 30000-32767
+  clusterIP: 10.99.118.13
