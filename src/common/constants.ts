@@ -3,6 +3,21 @@ export enum RabbitMQ {
   ManagementQueue = 'management',
 }
 
+export enum GrpcService {
+  AuthService = 'AuthService',
+}
+
+export enum AuthRPC {
+  CreateUser = 'CreateUser',
+  FindUsers = 'FindUsers',
+  FindUser = 'FindUser',
+  UpdateUser = 'UpdateUser',
+  DeleteUser = 'DeleteUser',
+  UpdateJWT = 'UpdateJWT',
+  Login = 'Login',
+  RecoverPassword = 'RecoverPassword',
+}
+
 export enum UserMSG {
   CREATE = 'CREATE_USER',
   FIND_ALL = 'FIND_USERS',
