@@ -28,8 +28,6 @@ export class UserController {
     private readonly clientProxy: ClientProxyNotJira,
     private authService: AuthService,
   ) {}
-  private clientProxyUser = this.clientProxy.clientProxyAuthorization();
-  private clientProxyManagement = this.clientProxy.clientProxyManagement();
 
   @Post('/login')
   async login(@Body() payload: loginDto) {
