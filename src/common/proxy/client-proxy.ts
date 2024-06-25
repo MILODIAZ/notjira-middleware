@@ -6,11 +6,13 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { RabbitMQ } from '../constants';
+import { join } from 'path';
 
 @Injectable()
 export class ClientProxyNotJira {
   constructor(private readonly config: ConfigService) {}
 
+  /*
   clientProxyAuthorization(): ClientProxy {
     return ClientProxyFactory.create({
       transport: Transport.RMQ,
@@ -27,6 +29,42 @@ export class ClientProxyNotJira {
       options: {
         urls: this.config.get('AMQP_URL'),
         queue: RabbitMQ.ManagementQueue,
+      },
+    });
+  }
+  */
+  clientProxyAuth(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.GRPC,
+      options: {
+        url: '0.0.0.0:50051',
+        package: 'auth',
+        protoPath: join(__dirname, 'node_modules/archi/proto/auth.proto'),
+        loader: {
+          keepCase: true,
+          longs: String,
+          enums: String,
+          defaults: true,
+          oneofs: true,
+        },
+      },
+    });
+  }
+
+  clientProxyTeam(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.GRPC,
+      options: {
+        url: '0.0.0.0:50051',
+        package: 'team',
+        protoPath: join(__dirname, 'node_modules/archi/proto/team.proto'),
+        loader: {
+          keepCase: true,
+          longs: String,
+          enums: String,
+          defaults: true,
+          oneofs: true,
+        },
       },
     });
   }
